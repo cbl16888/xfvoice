@@ -10,8 +10,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  String voiceMsg = '暂无数据';
-  String iflyResultString = '按下方块说话';
+  String _voiceMsg = '暂无数据';
+  String _resultString = '按下方块说话';
 
   XFJsonResult xfResult;
 
@@ -46,19 +46,19 @@ class _MyApp extends State<MyApp> {
         body: Center(
           child: GestureDetector(
             child: Container(
-              child: Text(iflyResultString),
+              child: Text(_resultString),
               width: 300.0,
               height: 300.0,
               color: Colors.blueAccent,
             ),
             onTapDown: (d) {
               setState(() {
-                voiceMsg = '按下';
+                _voiceMsg = '按下';
               });
-              _recongize();
+              _recognize();
             },
             onTapUp: (d) {
-              _recongizeOver();
+              _recognizeOver();
             },
           ),
         )
@@ -66,7 +66,7 @@ class _MyApp extends State<MyApp> {
     );
   }
 
-  void _recongize() {
+  void _recognize() {
     final listen = XFVoiceListener(
       onVolumeChanged: (volume) {
       },
@@ -82,7 +82,7 @@ class _MyApp extends State<MyApp> {
         }
         if (result.length > 0) {
           setState(() {
-            iflyResultString = xfResult.resultText();
+            _resultString = xfResult.resultText();
           });
         }
       },
@@ -95,7 +95,7 @@ class _MyApp extends State<MyApp> {
     XFVoice.shared.start(listener: listen);
   }
 
-  void _recongizeOver() {
+  void _recognizeOver() {
     XFVoice.shared.stop();
   }
 }
