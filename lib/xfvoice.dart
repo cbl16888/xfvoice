@@ -157,6 +157,45 @@ class XFVoiceListener {
   ]
 }
  */
+
+class XFAllJsonResult {
+  List<XFJsonResult> _allResult;
+
+  bool get hasData => null != _allResult && _allResult.length > 0;
+  
+  void mix(XFJsonResult result) {
+    if (null == _allResult) {
+      _allResult = List();
+    }
+    _allResult.add(result);
+    if (result.pgs == 'rpl') {
+      var startIndex = result.rg.first;
+      var endIndex = result.rg.last;
+      _allResult[startIndex - 1].ws = result.ws;
+      result.ws = [];
+      for (int i = startIndex; i < endIndex; i++) {
+        _allResult[i].ws = [];
+      }
+    }
+  }
+
+  String resultText() {
+    final resultStr = _allResult
+        .map((element) {
+      return element.ws.map((e) {
+        List cw = e['cw'];
+        if (cw == null || cw.length == 0) {
+          return '';
+        } else {
+          return cw[0]['w'] as String;
+        }
+      }).toList().join();
+    }).toList().join();
+    return resultStr;
+  }
+}
+
+
 class XFJsonResult {
   int sn;
   bool ls;
@@ -175,36 +214,6 @@ class XFJsonResult {
     this.pgs = json['pgs'] as String;
     this.rg = json['rg'] as List;
     this.ws = json['ws'] as List;
-  }
-
-  /// 适配动态修正
-  void mix(XFJsonResult another) {
-    this.sn = another.sn;
-    this.ls = another.ls;
-    this.bg = another.bg;
-    this.ed = another.ed;
-    this.rg = another.rg;
-    if (another.pgs == 'apd') {
-      this.ws.addAll(another.ws);
-    } else {
-      this.ws = another.ws;
-    }
-  }
-
-  String resultText() {
-    final resultStr = this
-        .ws
-        .map((element) {
-          List cw = element['cw'];
-          if (cw == null || cw.length == 0) {
-            return '';
-          } else {
-            return cw[0]['w'] as String;
-          }
-        })
-        .toList()
-        .join();
-    return resultStr;
   }
 }
 

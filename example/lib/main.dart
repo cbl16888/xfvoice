@@ -13,7 +13,7 @@ class _MyApp extends State<MyApp> {
   String _voiceMsg = '暂无数据';
   String _resultString = '按下方块说话';
 
-  XFJsonResult xfResult;
+  XFAllJsonResult _xfResult;
 
   @override
   void initState() {
@@ -71,18 +71,16 @@ class _MyApp extends State<MyApp> {
       onVolumeChanged: (volume) {
       },
       onBeginOfSpeech: () {
-        xfResult = null;
+        _xfResult = null;
       },
       onResults: (String result, isLast) {
-        if (xfResult == null) {
-          xfResult = XFJsonResult(result);
-        } else {
-          final another = XFJsonResult(result);
-          xfResult.mix(another);
+        if (_xfResult == null) {
+          _xfResult = XFAllJsonResult();
         }
-        if (result.length > 0) {
+        _xfResult.mix(XFJsonResult(result));
+        if (_xfResult.hasData) {
           setState(() {
-            _resultString = xfResult.resultText();
+            _resultString = _xfResult.resultText();
           });
         }
       },
