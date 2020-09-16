@@ -24,7 +24,7 @@ class _MyApp extends State<MyApp> {
    Future<void> initPlatformState() async {
     final voice = XFVoice.shared;
     // 请替换成你的appid
-    voice.init(appIdIos: '5d133a41', appIdAndroid: '5d133aae');
+    voice.init(appIdIos: '5f607d0f', appIdAndroid: '5f607d0f');
     final param = new XFVoiceParam();
     param.domain = 'iat';
     // param.asr_ptt = '0';   //取消注释可去掉标点符号
@@ -58,7 +58,7 @@ class _MyApp extends State<MyApp> {
               _recongize();
             },
             onTapUp: (d) {
-              // _recongizeOver();
+              _recongizeOver();
             },
           ),
         )
