@@ -50,7 +50,14 @@ class XFVoice {
         listener.onEndOfSpeech();
       }
       if (call.method == 'onCompleted' && listener?.onCompleted != null) {
-        listener.onCompleted(call.arguments[0], call.arguments[1]);
+        if (call.arguments is List) {
+          List arguments = call.arguments;
+          if (arguments.length >= 2) {
+            listener.onCompleted(call.arguments[0], call.arguments[1]);
+            return;
+          }
+        }
+        listener.onCompleted(null, null);
       }
       if (call.method == 'onResults' && listener?.onResults != null) {
         listener.onResults(call.arguments[0], call.arguments[1]);
