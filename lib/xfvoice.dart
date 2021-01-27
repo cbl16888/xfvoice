@@ -316,6 +316,7 @@ class XFVoiceParam {
       'lexicon_name': lexicon_name,
       'grammar_list': grammar_list,
       'nlp_version': nlp_version,
+      'nunum': 0
     };
     final isNull = (key, value) {
       return value == null;
